@@ -23,3 +23,27 @@ def clean():
     df_clean.rename(columns={'place':'region'},inplace=True)
 
     return df_clean
+
+
+
+def mag_region():
+    df_clean = clean()
+    df['mag'] = pd.cut(df.mag,bins=[0,2,5,7,9,50],labels=['micro','light','strong','major','great'])  #50随便选的一个很大的数字
+    labels=['micro','light','strong','major','great']
+    region = []
+    times = []
+    mag = []
+
+    for mags in labels:
+       if mags in df.mag.values:
+           mag.append(mags)
+           times.append(df[df.mag==mags].region.value_counts()[0])
+           region.append(df[df.mag==mags].region.value_counts().index[0])
+    df1 ={'region':region,'times':times}
+    
+    df_final =pd.DataFrame(df1,index=mag)
+    
+    
+    return df_final
+    
+    
