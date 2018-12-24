@@ -28,7 +28,7 @@ def clean():
 
 def mag_region():
     df = clean()
-    df['mag'] = pd.cut(df.mag,bins=[0,2,5,7,9,50],labels=['micro','light','strong','major','great'])  #50随便选的一个很大的数字
+    df['mag'] = pd.cut(df.mag,bins=[0,2,5,7,9,50],right=False,labels=['micro','light','strong','major','great'])  #50随便选的一个很大的数字
     labels=['micro','light','strong','major','great']
     region = []
     times = []
