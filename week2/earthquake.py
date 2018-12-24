@@ -39,10 +39,14 @@ def mag_region():
            mag.append(mags)
            times.append(df[df.mag==mags].region.value_counts()[0])
            region.append(df[df.mag==mags].region.value_counts().index[0])
-    df1 ={'region':region,'times':times}
+    df1 ={'mag':mag,'region':region,'times':times}
+
+
     
-    df_final =pd.DataFrame(df1,index=mag)
-    
+    df_final =pd.DataFrame(df1)
+    df_final.set_index(['mag'],inplace=True)
+    df_final.times = df_final.times.astype('int')
+
     
     return df_final
     
