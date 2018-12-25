@@ -7,20 +7,18 @@ def co2():
     df_series = pd.read_excel('ClimateChange.xlsx',sheet_name ='Series')
 
 
-    df_data.replace('..',np.NaN,inplace=True)#将..替换为0.
-    df_co2 = df_data[df_data['Series code']=='EN.ATM.CO2E.KT'] #选择co2排放数据
-
-    df_co2 = df_co2.fillna(method='ffill', axis=1).fillna(method='bfill', axis=1)
-    df_co2.dropna(how='all', inplace=True)  
-
-    
-    a = df_co2.columns[list(range(6,28,1))] #选择不同年份的排放数据
-    df_co2_emission = df_co2[a]
-    df_co2_emission = df_co2_emission.astype('float')#转变为列
-
-    df = df_co2[['Country name']]
-    df['total_emission'] = df_co2_emission.apply(lambda x: x.sum(),axis=1)
+    df_data = df_data[df_data['Series code'] =='EN.ATM.CO2E.KT']
+    a = df_data.columns[list(range(6,28,1))]
+    df_co2_emission = df_data[a]
+    df_co2_emission.replace({'..': pd.np.NaN}, inplace=True)
+    data = df_co2_emission.fillna(method='ffill', axis=1).fillna(method='bfill', axis=1)
+    data.dropna(how='all', inplace=True)
+    df = df_data[['Country name']]
+    df['total_emission'] = data.apply(lambda x: x.sum(),axis=1)
     df = df[df['total_emission']!=0]
+
+
+
 
     
     
