@@ -1,5 +1,5 @@
 import pandas as pd
-
+import numpy as np
 def co2():
     #读取数据
     df_data = pd.read_excel('ClimateChange.xlsx',sheet_name ='Data')
@@ -7,8 +7,11 @@ def co2():
     df_series = pd.read_excel('ClimateChange.xlsx',sheet_name ='Series')
 
 
-    df_data.replace('..','0',inplace=True)#将..替换为0.
+    df_data.replace('..',np.NaN,inplace=True)#将..替换为0.
     df_co2 = df_data[df_data['Series code']=='EN.ATM.CO2E.KT'] #选择co2排放数据
+
+    df_co2 = df_co2.fillna(method='ffill', axis=1).fillna(method='bfill', axis=1)
+    df_co2.dropna(how='all', inplace=True)  
 
     
     a = df_co2.columns[list(range(6,28,1))] #选择不同年份的排放数据
